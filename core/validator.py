@@ -1,5 +1,5 @@
 class Validator:
-    def __init__(self) -> None:
+    def __init__(self, body: str) -> None:
         pass
 
     def assert_equal(self, actual, expect) -> None:
