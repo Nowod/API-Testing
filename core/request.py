@@ -1,12 +1,22 @@
 """
-req
-.get
-.params
-.headers
-.
+client
+.import()
+.get()
+.headers()
+.params()
+.body()
+.send()
+
+.reveice(timeout=0)
+
+.assert_header()
+.assert_body(IMAGE/JSON/HTML)
+.export
 """
 import requests
-from response import Response
+from .enum import Method
+from .response import Response
+from .exceptions import MethodError
 
 
 class Request:
@@ -14,7 +24,13 @@ class Request:
         self.__url = None
         self.__headers = None
         self.__version = None
+        self.__params = None
         self.__body = None
+        self.__method = None
+        self.__response = None
+
+    def _get_res(self):
+        return self.__response
 
     def headers(self, headers: dict) -> "Request":
         self.__headers = headers
@@ -24,33 +40,74 @@ class Request:
         self.__body = body
         return self
 
-    def get(self, url: str) -> "Response":
-        self.__url = url
-        _res = requests.get(self.__url)
-        return Response(
-            status_code=_res.status_code, headers=_res.headers, body=_res.text
-        )
+    def params(self, params: dict) -> "Request":
+        self.__params = params
+        return self
 
-    def post(self, url: str, body: str) -> "Response":
+    def get(self, url: str) -> "Request":
         self.__url = url
+        self.__method = Method.GET
+        return self
+
+    def post(self, url: str, body: str) -> "Request":
+        self.__url = url
+        self.__method = Method.POST
         self.__body = body
-        return Response
+        return self
 
-    def put(self, url: str, body: str) -> "Response":
+    def put(self, url: str, body: str) -> "Request":
         self.__url = url
+        self.__method = Method.PUT
         self.__body = body
-        return Response
+        return self
 
-    def patch(self, url: str, body: str) -> "Response":
+    def patch(self, url: str, body: str) -> "Request":
         self.__url = url
+        self.__method = Method.PATCH
         self.__body = body
-        return Response
+        return self
 
-    def delete(self, url: str) -> "Response":
+    def delete(self, url: str) -> "Request":
         self.__url = url
-        return Response
+        self.__method = Method.DELETE
+        return self
+
+    def send(self, timeout: int = 8) -> "Response":
+        if self.__method is None:
+            raise MethodError("The request method is not declared!")
+        elif self.__method == Method.GET:
+            self.__response = requests.get(
+                self.__url,
+                params=self.__params,
+                headers=self.__headers,
+                timeout=timeout,
+            )
+        elif self.__method == Method.POST:
+            self.__response = requests.post(
+                self.__url, data=self.__body, headers=self.__headers, timeout=timeout
+            )
+        elif self.__method == Method.PUT:
+            self.__response = requests.put(
+                self.__url, data=self.__body, headers=self.__headers, timeout=timeout
+            )
+        elif self.__method == Method.PATCH:
+            self.__response = requests.patch(
+                self.__url, data=self.__body, headers=self.__headers, timeout=timeout
+            )
+        elif self.__method == Method.DELETE:
+            self.__response = requests.delete(
+                self.__url, headers=self.__headers, timeout=timeout
+            )
+        else:
+            raise MethodError(
+                "The request method[{}] does not exist".format(self.__method)
+            )
+
+        return Response(self.__response)
+        # return _res
 
 
 if __name__ == "__main__":
     req = Request()
-    print(req.get("http://www.baidu.com").__dict__)
+    res = req.get("http://www.baidu.com").send(10)
+    print(req._get_res().text)
