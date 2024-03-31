@@ -1,1 +1,43 @@
-{}
+{
+    // 保存自动格式化代码
+    "editor.formatOnSave": true,
+    // 关闭自动保存，避免与organizeImports互相影响
+    "files.autoSave": "off",
+    // 配置 Tab 空格数
+    "editor.tabSize": 2,
+    // 字体大小
+    "editor.fontSize": 18,
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[toml]": {
+        "editor.defaultFormatter": "tamasfe.even-better-toml"
+    },
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            // 存档时自动fix。 （类似pre-commit 时，hook 的自动修正）
+            "source.fixAll": "always",
+            // 存档时自动排序imports。
+            "source.organizeImports": "always"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff",
+    },
+    // // 代码段颜色&语法高亮颜色
+    // "editor.tokenColorCustomizations": {
+    //     "keywords": "#EC8F3F", //关键字
+    //     "variables": "#8C736F", //变量名
+    //     "functions": "#845937", //函数名
+    //     "types": "#8E6E57", //类型名
+    //     "numbers": "#728A7A", //数字
+    //     "strings": "#DBD4C6", //字符串
+    //     "comments": "#AAB8AB", //注释
+    //     "textMateRules": [
+    //         {
+    //             "scope": "source.python",
+    //             "settings": {
+    //                 "foreground": "#DFF7E6",
+    //             }
+    //         }
+    //     ]
+    // },
+}

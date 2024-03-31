@@ -5,16 +5,15 @@ req.get(url).assert_equal("actual", "expect")
 req.post(url, data).assert_not_equal("actual", "expect")
 assert_schema power by pydantic
 """
-# import pytest
-# from core import Rush
-from core.request import Request
+
+from lib.client import Client
 
 
 class TestDemo:
     """
-    测试Demo类
+    测试Demo
     """
 
-    def test_baidu(self, client: Request):
-        res = client.get("https://www.baidu.com").headers({}).send
+    def test_baidu(self, client: Client):
+        res = client.get("https://www.baidu.com").headers({}).send()
         assert res.status_code == 200

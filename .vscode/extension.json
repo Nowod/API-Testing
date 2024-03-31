@@ -1,0 +1,18 @@
+{
+    "recommendations": [
+      "MS-CEINTL.vscode-language-pack-zh-hans",
+      "charliermarsh.ruff",
+      "ms-python.python",
+      "ms-python.vscode-pylance",
+      "ms-python.debugpy",
+      "usernamehw.errorlens",
+      "Codeium.codeium",
+      "tamasfe.even-better-toml",
+      "ckolkman.vscode-postgres",
+      "eamodio.gitlens",
+      "zhuangtongfa.material-theme",
+      "ms-azuretools.vscode-docker",
+      "mongodb.mongodb-vscode",
+      "Gruntfuggly.todo-tree"
+    ]
+  }

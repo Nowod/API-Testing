@@ -1,8 +1,9 @@
 import pytest
-from core.request import Request
+
+from lib.client import Client
 
 
 @pytest.fixture(scope="session")
 def client():
     """请求"""
-    return Request()
+    return Client()
