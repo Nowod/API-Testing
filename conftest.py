@@ -1,6 +1,6 @@
 import pytest
 
-from lib.client import Client
+from core.client import Client
 
 
 @pytest.fixture(scope="session")

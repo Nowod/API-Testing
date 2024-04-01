@@ -15,6 +15,7 @@ client
 from requests import Request, Response, Session
 
 from .exceptions import MethodError
+from .validator import Validator
 
 
 class Optional:
@@ -33,13 +34,13 @@ class Optional:
     def params(self, params: dict) -> "Optional":
         return self
 
-    def send(self, timeout: int = 8):
+    def send(self, timeout: int = 8) -> Validator:
         if self.__request.method is None:
             raise MethodError("The request method is not declared!")
         else:
             pre_request = self.__request.prepare()
             self.__response = self.__session.send(pre_request, timeout=timeout)
-        return self.__response
+        return Validator(self.__request, self.__response)
 
 
 class Client:
