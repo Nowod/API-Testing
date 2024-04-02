@@ -1,6 +1,7 @@
-from typing import Type
+import re
+from typing import Type, Union
 
-from jsonschema import validate
+from jsonschema import validate as jsonschema_validate
 from pydantic import ValidationError
 from requests import Request, Response
 
@@ -13,9 +14,9 @@ class RequestValidator:
 
 
 class ResponseValidator:
-    def __init__(self, response: Response) -> "ResponseValidator":
+    def __init__(self, response: Response) -> None:
         self.__response: Response = response
-        self.__body: str = self.__response.text
+        self.__body = self.__response.text
         self.__headers: dict = self.__response.headers
 
     def assert_status_code(self, status_code: int) -> "ResponseValidator":
@@ -26,8 +27,8 @@ class ResponseValidator:
         assert self.__headers[key] == value
         return self
 
-    def assert_timing(self, timing: int) -> "ResponseValidator":
-        assert self.__response.elapsed.total_seconds() < timing
+    def assert_timing(self, timing: Union[int, float]) -> "ResponseValidator":
+        assert self.__response.elapsed.total_seconds() <= timing
         return self
 
     # assert exist
@@ -42,12 +43,12 @@ class ResponseValidator:
         return self
 
     # assert value
-    def assert_equal(self, actual: str, expect: int) -> "ResponseValidator":
+    def assert_equal(self, actual: str, expect) -> "ResponseValidator":
         extract_result = extract_json(actual, self.__body)
         assert extract_result == expect
         return self
 
-    def assert_not_equal(self, actual: str, expect: int) -> "ResponseValidator":
+    def assert_not_equal(self, actual: str, expect) -> "ResponseValidator":
         extract_result = extract_json(actual, self.__body)
         assert extract_result != expect
         return self
@@ -95,8 +96,11 @@ class ResponseValidator:
     # assert format
     def assert_schema(self, actual: str, schema: dict) -> "ResponseValidator":
         extract_result = extract_json(actual, self.__body)
-        assert validate(instance=extract_result, schema=schema)
-        return self
+        try:
+            jsonschema_validate(instance=extract_result, schema=schema)
+            return self
+        except ValidationError as error:
+            raise error
 
     def assert_pydantic(self, actual: str, model: Type) -> "ResponseValidator":
         extract_result = extract_json(actual, self.__body)
@@ -108,7 +112,9 @@ class ResponseValidator:
 
     def assert_regex(self, actual: str, regex: str) -> "ResponseValidator":
         extract_result = extract_json(actual, self.__body)
-        assert extract_result == regex
+        match = re.match(regex, extract_result)
+        if not match:
+            raise AssertionError(f"Actual: {actual} does not match regex: {regex}")
         return self
 
     # assert type
@@ -133,7 +139,7 @@ class ResponseValidator:
         self.assert_type(actual, str)
         return self
 
-    def assert_boolean(self, actual: str) -> "ResponseValidator":
+    def assert_boolean(self, actual: bool) -> "ResponseValidator":
         self.assert_type(actual, bool)
         return self
 
