@@ -6,7 +6,7 @@ root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fi
 sys.path.append(root_path)
 
 
-from core.utils import extract_json
+from core.utils import extract_json  # noqa: E402
 
 
 class TestUtils(unittest.TestCase):
