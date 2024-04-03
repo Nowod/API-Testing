@@ -12,11 +12,10 @@ client
 .export
 """
 
-from requests import Request, Response, Session
+from requests import Request, Session
 
 from .exceptions import MethodError
-
-# from .validator import Validator
+from .validator import ResponseValidator
 
 
 class Optional:
@@ -35,22 +34,22 @@ class Optional:
     def params(self, params: dict) -> "Optional":
         return self
 
-    def send(self, timeout: int = 8) -> None:
+    def send(self, timeout: int = 8) -> ResponseValidator:
         if self.__request.method is None:
             raise MethodError("The request method is not declared!")
         else:
             pre_request = self.__request.prepare()
             self.__response = self.__session.send(pre_request, timeout=timeout)
-        return self.__response
+        # return self.__response
         # TODO: add validator
-        # return Validator(self.__request, self.__response)
+        return ResponseValidator(response=self.__response)
 
 
 class Client:
     def __init__(self) -> None:
         self.__request: Request = Request()
-        self.__session: Session = Session()
-        self.__response: Response | None = None
+        # self.__session: Session = Session()
+        # self.__response: Response | None = None
 
     def get(self, url: str) -> "Optional":
         self.__request.url = url

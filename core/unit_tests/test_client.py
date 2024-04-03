@@ -25,13 +25,13 @@ class TestClient(unittest.TestCase):
             ),
         )
 
-        client = Client()
-        res = (
-            client.get(self.base_url)
+        (
+            Client()
+            .get(self.base_url)
             .headers({"Content-Type": "application/json"})
             .send(timeout=8)
+            .assert_equal("$.Hello", "World")
         )
-        self.assertEqual(json.loads(res.text), {"Hello": "World"})
 
     @responses.activate
     def test_post(self):
@@ -44,14 +44,14 @@ class TestClient(unittest.TestCase):
             ),
         )
 
-        client = Client()
-        res = (
-            client.post(self.base_url)
+        (
+            Client()
+            .post(self.base_url)
             .headers({"Content-Type": "application/json"})
             .body(json.dumps({"xx": "post"}))
             .send(timeout=8)
+            .assert_equal("$.Hello", "World")
         )
-        self.assertEqual(json.loads(res.text), {"Hello": "World"})
 
     @responses.activate
     def test_put(self):
@@ -64,14 +64,14 @@ class TestClient(unittest.TestCase):
             ),
         )
 
-        client = Client()
-        res = (
-            client.put(self.base_url)
+        (
+            Client()
+            .put(self.base_url)
             .headers({"Content-Type": "application/json"})
-            .body(json.dumps({"xx": "put"}))
+            .body(json.dumps({"xx": "post"}))
             .send(timeout=8)
+            .assert_equal("$.Hello", "World")
         )
-        self.assertEqual(json.loads(res.text), {"Hello": "World"})
 
     @responses.activate
     def test_patch(self):
@@ -83,14 +83,14 @@ class TestClient(unittest.TestCase):
                 json={"Hello": "World"},
             ),
         )
-        client = Client()
-        res = (
-            client.patch(self.base_url)
+        (
+            Client()
+            .patch(self.base_url)
             .headers({"Content-Type": "application/json"})
-            .body(json.dumps({"xx": "patch"}))
+            .body(json.dumps({"xx": "post"}))
             .send(timeout=8)
+            .assert_equal("$.Hello", "World")
         )
-        self.assertEqual(json.loads(res.text), {"Hello": "World"})
 
     @responses.activate
     def test_delete(self):
@@ -102,14 +102,14 @@ class TestClient(unittest.TestCase):
                 json={"Hello": "World"},
             ),
         )
-        client = Client()
-        res = (
-            client.delete(self.base_url)
+        (
+            Client()
+            .delete(self.base_url)
             .headers({"Content-Type": "application/json"})
-            .body(json.dumps({"xx": "Wordeleteld"}))
+            .body(json.dumps({"xx": "post"}))
             .send(timeout=8)
+            .assert_equal("$.Hello", "World")
         )
-        self.assertEqual(json.loads(res.text), {"Hello": "World"})
 
 
 if __name__ == "__main__":
