@@ -6,7 +6,7 @@ req.post(url, data).assert_not_equal("actual", "expect")
 assert_schema power by pydantic
 """
 
-import json
+import responses
 
 from core.client import Client
 
@@ -16,15 +16,22 @@ class TestDemo:
     测试Demo
     """
 
-    base_url = "http://127.0.0.1:8000"
-
+    @responses.activate
     def test_baidu(self, client: Client):
-        client = Client()
-        res = (
-            client.get(self.base_url)
+        responses.add(
+            responses.Response(
+                method="GET",
+                url="http://example.com",
+                headers={"Content-Type": "application/json"},
+                json={"Hello": "World"},
+            ),
+        )
+        (
+            Client()
+            .get("http://example.com")
             .headers({"Content-Type": "application/json"})
             .send(timeout=8)
+            .assert_status_code(200)
+            .assert_header("Content-Type", "application/json")
+            .assert_equal("$.Hello", "World")
         )
-        assert res.status_code == 200
-        assert res.headers["Content-Type"] == "application/json"
-        assert json.loads(res.text) == {"Hello": "World"}
