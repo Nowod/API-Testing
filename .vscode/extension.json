@@ -8,11 +8,9 @@
       "usernamehw.errorlens",
       "Codeium.codeium",
       "tamasfe.even-better-toml",
-      "ckolkman.vscode-postgres",
       "eamodio.gitlens",
       "zhuangtongfa.material-theme",
-      "ms-azuretools.vscode-docker",
-      "mongodb.mongodb-vscode",
-      "Gruntfuggly.todo-tree"
+      "Gruntfuggly.todo-tree",
+      "ms-vscode.live-server"
     ]
   }

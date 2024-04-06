@@ -40,8 +40,7 @@ class Optional:
         else:
             pre_request = self.__request.prepare()
             self.__response = self.__session.send(pre_request, timeout=timeout)
-        # return self.__response
-        # TODO: add validator
+
         return ResponseValidator(response=self.__response)
 
 

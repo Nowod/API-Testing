@@ -21,23 +21,5 @@
             "source.organizeImports": "always"
         },
         "editor.defaultFormatter": "charliermarsh.ruff",
-    },
-    // // 代码段颜色&语法高亮颜色
-    // "editor.tokenColorCustomizations": {
-    //     "keywords": "#EC8F3F", //关键字
-    //     "variables": "#8C736F", //变量名
-    //     "functions": "#845937", //函数名
-    //     "types": "#8E6E57", //类型名
-    //     "numbers": "#728A7A", //数字
-    //     "strings": "#DBD4C6", //字符串
-    //     "comments": "#AAB8AB", //注释
-    //     "textMateRules": [
-    //         {
-    //             "scope": "source.python",
-    //             "settings": {
-    //                 "foreground": "#DFF7E6",
-    //             }
-    //         }
-    //     ]
-    // },
+    }
 }

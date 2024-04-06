@@ -1,10 +1,8 @@
 """
-传入req
-支持 HTTP、HTTP/2 和 WebSocket
-req.get(url).assert_equal("actual", "expect")
-req.post(url, data).assert_not_equal("actual", "expect")
-assert_schema power by pydantic
+测试用例Demo
 """
+
+import json
 
 import responses
 
@@ -17,7 +15,7 @@ class TestDemo:
     """
 
     @responses.activate
-    def test_baidu(self, client: Client):
+    def test_get(self, client: Client):
         responses.add(
             responses.Response(
                 method="GET",
@@ -32,6 +30,29 @@ class TestDemo:
             .headers({"Content-Type": "application/json"})
             .send(timeout=8)
             .assert_status_code(200)
+            .assert_timing(0.5)
+            .assert_header("Content-Type", "application/json")
+            .assert_equal("$.Hello", "World")
+        )
+
+    @responses.activate
+    def test_post(self, client: Client):
+        responses.add(
+            responses.Response(
+                method="POST",
+                url="http://example.com",
+                headers={"Content-Type": "application/json"},
+                json={"Hello": "World"},
+            ),
+        )
+        (
+            Client()
+            .post("http://example.com")
+            .headers({"Content-Type": "application/json"})
+            .body(json.dumps({"xx": "post test"}))
+            .send(timeout=8)
+            .assert_status_code(200)
+            .assert_timing(0.5)
             .assert_header("Content-Type", "application/json")
             .assert_equal("$.Hello", "World")
         )
