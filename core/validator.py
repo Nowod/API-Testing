@@ -178,3 +178,6 @@ class ResponseValidator:
 
     def assert_null(self, actual: str) -> "ResponseValidator":
         return self.assert_type(actual, type(None))
+
+    def exports(self, extract_list: dict) -> None:
+        return None

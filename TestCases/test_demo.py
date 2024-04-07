@@ -26,13 +26,25 @@ class TestDemo(BaseTestCase):
             ),
         )
         (
-            client.get("http://example.com")
+            client.imports(
+                {
+                    "params_1": "$.Hello",
+                    "params_2": "$.World",
+                }
+            )
+            .get("http://example.com")
             .headers({"Content-Type": "application/json"})
             .send(timeout=8)
             .assert_status_code(200)
             .assert_timing(0.5)
             .assert_header("Content-Type", "application/json")
             .assert_equal("$.Hello", "World")
+            .exports(
+                {
+                    "params_1": "$.Hello",
+                    "params_2": "$.World",
+                }
+            )
         )
 
     @responses.activate

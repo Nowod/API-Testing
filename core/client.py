@@ -50,6 +50,9 @@ class Client:
         # self.__session: Session = Session()
         # self.__response: Response | None = None
 
+    def imports(self, extract_list: dict) -> "Client":
+        return self
+
     def get(self, url: str) -> "Optional":
         self.__request.url = url
         self.__request.method = "GET"
