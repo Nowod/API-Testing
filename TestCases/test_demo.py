@@ -4,18 +4,19 @@
 
 import json
 
+import pytest
 import responses
 
-from core.client import Client
+from core.base import BaseTestCase
 
 
-class TestDemo:
+class TestDemo(BaseTestCase):
     """
     测试Demo
     """
 
     @responses.activate
-    def test_get(self, client: Client):
+    def test_get(self, client):
         responses.add(
             responses.Response(
                 method="GET",
@@ -25,8 +26,7 @@ class TestDemo:
             ),
         )
         (
-            Client()
-            .get("http://example.com")
+            client.get("http://example.com")
             .headers({"Content-Type": "application/json"})
             .send(timeout=8)
             .assert_status_code(200)
@@ -36,7 +36,14 @@ class TestDemo:
         )
 
     @responses.activate
-    def test_post(self, client: Client):
+    @pytest.mark.parametrize(
+        "req",
+        [
+            {"xx": "post test"},
+            {"xx": "post test", "yy": "post test"},
+        ],
+    )
+    def test_by_parametrize(self, req, client):
         responses.add(
             responses.Response(
                 method="POST",
@@ -46,10 +53,9 @@ class TestDemo:
             ),
         )
         (
-            Client()
-            .post("http://example.com")
+            client.post("http://example.com")
             .headers({"Content-Type": "application/json"})
-            .body(json.dumps({"xx": "post test"}))
+            .body(json.dumps(req))
             .send(timeout=8)
             .assert_status_code(200)
             .assert_timing(0.5)
