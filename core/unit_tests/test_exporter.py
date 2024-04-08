@@ -52,10 +52,16 @@ class TestExporter(unittest.TestCase):
             }
         }
     ).encode("utf-8")
-    exporter = Exporter(response)
+    extract = {}
+    exporter = Exporter(response, extract)
 
-    def test_export(self):
+    def test_export_header(self):
         self.exporter.export("header", "Content-Type", "Content-Type")
+        assert self.extract["Content-Type"] == "application/json"
+
+    def test_export_body(self):
+        self.exporter.export("body", "$.product.name", "product_name")
+        assert self.extract["product_name"] == "智能手环"
 
 
 if __name__ == "__main__":
