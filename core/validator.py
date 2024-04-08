@@ -5,6 +5,7 @@ from jsonschema import validate as js_validate
 from requests import Request, Response
 
 from .exceptions import ValidatorError
+from .exporter import Exporter
 from .utils import extract_json
 
 
@@ -14,9 +15,10 @@ class RequestValidator:
 
 
 class ResponseValidator:
-    def __init__(self, response: Response) -> None:
+    def __init__(self, response: Response, extract: dict) -> None:
         self.__response: Response = response
         self.__body = self.__response.text
+        self.__extract: dict = extract
 
     def assert_status_code(self, status_code: int) -> "ResponseValidator":
         if not self.__response.status_code == status_code:
@@ -179,5 +181,5 @@ class ResponseValidator:
     def assert_null(self, actual: str) -> "ResponseValidator":
         return self.assert_type(actual, type(None))
 
-    def exports(self, extract_list: dict) -> None:
-        return None
+    def export(self, source: str, target: str, alias: str) -> "Exporter":
+        return Exporter(self.__response, self.__extract).export(source, target, alias)

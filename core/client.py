@@ -19,9 +19,10 @@ from .validator import ResponseValidator
 
 
 class Optional:
-    def __init__(self, request: Request) -> None:
+    def __init__(self, request: Request, extract: dict) -> None:
         self.__request: Request = request
         self.__session: Session = Session()
+        self.__extract: dict = extract
 
     def headers(self, headers: dict) -> "Optional":
         self.__request.headers = headers
@@ -41,7 +42,7 @@ class Optional:
             pre_request = self.__request.prepare()
             self.__response = self.__session.send(pre_request, timeout=timeout)
 
-        return ResponseValidator(response=self.__response)
+        return ResponseValidator(response=self.__response, extract=self.__extract)
 
 
 class Client:
@@ -49,31 +50,33 @@ class Client:
         self.__request: Request = Request()
         # self.__session: Session = Session()
         # self.__response: Response | None = None
+        self.__extract: dict = {}
 
-    def imports(self, extract_list: dict) -> "Client":
-        return self
+    # TODO import params
+    # def imports(self, extract_list: dict) -> "Client":
+    #     return self
 
     def get(self, url: str) -> "Optional":
         self.__request.url = url
         self.__request.method = "GET"
-        return Optional(self.__request)
+        return Optional(self.__request, self.__extract)
 
     def post(self, url: str) -> "Optional":
         self.__request.url = url
         self.__request.method = "POST"
-        return Optional(self.__request)
+        return Optional(self.__request, self.__extract)
 
     def put(self, url: str) -> "Optional":
         self.__request.url = url
         self.__request.method = "PUT"
-        return Optional(self.__request)
+        return Optional(self.__request, self.__extract)
 
     def patch(self, url: str) -> "Optional":
         self.__request.url = url
         self.__request.method = "PATCH"
-        return Optional(self.__request)
+        return Optional(self.__request, self.__extract)
 
     def delete(self, url: str) -> "Optional":
         self.__request.url = url
         self.__request.method = "DELETE"
-        return Optional(self.__request)
+        return Optional(self.__request, self.__extract)
