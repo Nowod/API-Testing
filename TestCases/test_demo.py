@@ -7,7 +7,7 @@ import json
 import pytest
 import responses
 
-from core import Client, TestCase
+from core import ClientType, TestCase
 
 
 class TestDemo(TestCase):
@@ -16,7 +16,7 @@ class TestDemo(TestCase):
     """
 
     @responses.activate
-    def test_get(self, client: Client):
+    def test_get(self, client: ClientType):
         responses.add(
             responses.Response(
                 method="GET",
@@ -43,7 +43,7 @@ class TestDemo(TestCase):
             {"xx": "post test", "yy": "post test"},
         ],
     )
-    def test_by_parametrize(self, req, client: Client):
+    def test_by_parametrize(self, req, client: ClientType):
         responses.add(
             responses.Response(
                 method="POST",

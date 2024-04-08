@@ -12,3 +12,7 @@ def extract_json(jsonpath_expr: str, json_str: str | dict) -> dict:
         return extract_result[0]
     else:
         return None
+
+
+def format_string_by_variable(format_str: str, variables: dict) -> str:
+    return format_str.format(**variables)
