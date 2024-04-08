@@ -5,11 +5,22 @@ from .utils import extract_json
 
 
 class Exporter:
-    def __init__(self, response: Response, extract:dict) -> None:
+    def __init__(self, response: Response, extract: dict) -> None:
         self.__response: Response = response
         self.__extract: dict = extract
 
-    def export(self, source: str, target: str, alias: str) -> "Exporter":
+    def export(self, *args) -> "Exporter":
+        if len(args) == 3:
+            source, target, alias = args
+            source = source.lower()
+        elif len(args) == 2:
+            target, alias = args
+            source = "body"
+        else:
+            raise ExporterError(
+                "Error args, export(source, target, alias) or export(target, alias)"
+            )
+
         if source == "header":
             if target not in self.__response.headers:
                 raise ExporterError(f"Header {target} not in {self.__response.headers}")

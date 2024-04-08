@@ -33,6 +33,7 @@ class TestDemo(TestCase):
             .assert_timing(0.5)
             .assert_header("Content-Type", "application/json")
             .assert_equal("$.Hello", "World")
+            .export("body", "$.Hello", "Hello")
         )
 
     @responses.activate

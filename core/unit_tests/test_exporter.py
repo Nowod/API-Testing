@@ -60,7 +60,7 @@ class TestExporter(unittest.TestCase):
         assert self.extract["Content-Type"] == "application/json"
 
     def test_export_body(self):
-        self.exporter.export("body", "$.product.name", "product_name")
+        self.exporter.export("$.product.name", "product_name")
         assert self.extract["product_name"] == "智能手环"
 
 
