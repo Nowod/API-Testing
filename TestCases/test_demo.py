@@ -40,7 +40,7 @@ class TestDemo(TestCase):
     @pytest.mark.parametrize(
         "req",
         [
-            {"xx": "post test"},
+            {"xx": "post {Hello}"},
             {"xx": "post test", "yy": "post test"},
         ],
     )

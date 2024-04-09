@@ -15,6 +15,7 @@ client
 from requests import Request, Session
 
 from .exceptions import MethodError
+from .utils import deep_traverse_and_format
 from .validator import ResponseValidator
 
 
@@ -29,7 +30,7 @@ class Optional:
         return self
 
     def body(self, payload: dict) -> "Optional":
-        self.__request.data = payload
+        self.__request.data = deep_traverse_and_format(payload, self.__extract)
         return self
 
     def params(self, params: dict) -> "Optional":

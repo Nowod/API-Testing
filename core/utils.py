@@ -1,4 +1,5 @@
 import json
+from typing import Any, Dict, List, Union
 
 from jsonpath import jsonpath
 
@@ -14,5 +15,39 @@ def extract_json(jsonpath_expr: str, json_str: str | dict) -> dict:
         return None
 
 
-def format_string_by_variable(format_str: str, variables: dict) -> str:
-    return format_str.format(**variables)
+def format_string_by_variable(format_str: Any, variables: dict) -> Any:
+    if isinstance(format_str, (str, bytes)):
+        tmp = format_str.format(**variables)
+        return tmp
+    else:
+        return format_str
+
+
+def deep_traverse_and_format(
+    data: Union[List, Dict], variables: dict
+) -> Union[List, Dict]:
+    if isinstance(data, dict):
+        # format key
+        # for key, value in data.items():
+        #     key_formatted = format_string_by_variable(key, variables)
+        #     if key != key_formatted:
+        #         data.pop(key, None)
+        #         data[key_formatted] = value
+        # format value
+        for key, value in data.items():
+            if isinstance(value, (str, bytes)):
+                data[key] = format_string_by_variable(value, variables)
+            elif isinstance(value, (list, dict)):
+                deep_traverse_and_format(value, variables)
+            else:
+                pass
+    elif isinstance(data, list):
+        for index in range(len(data)):
+            if isinstance(data[index], str):
+                data[index] = format_string_by_variable(data[index], variables)
+            elif isinstance(data[index], (list, dict)):
+                deep_traverse_and_format(data[index], variables)
+            else:
+                pass
+    else:
+        pass
