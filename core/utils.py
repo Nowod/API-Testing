@@ -1,10 +1,10 @@
 import json
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Mapping, Union
 
 from jsonpath import jsonpath
 
 
-def extract_json(jsonpath_expr: str, json_str: str | dict) -> dict:
+def extract_json(jsonpath_expr: str, json_str: Union[str, Dict]) -> Dict:
     json_data = json_str
     if isinstance(json_data, str):
         json_data = json.loads(json_data)
@@ -15,7 +15,7 @@ def extract_json(jsonpath_expr: str, json_str: str | dict) -> dict:
         return None
 
 
-def format_string_by_variable(format_str: Any, variables: dict) -> Any:
+def format_string_by_variable(format_str: Any, variables: Mapping) -> Any:
     if isinstance(format_str, (str, bytes)):
         tmp = format_str.format(**variables)
         return tmp
@@ -24,7 +24,7 @@ def format_string_by_variable(format_str: Any, variables: dict) -> Any:
 
 
 def deep_traverse_and_format(
-    data: Union[List, Dict], variables: dict
+    data: Union[List, Mapping], variables: Mapping
 ) -> Union[List, Dict]:
     if isinstance(data, dict):
         # format key

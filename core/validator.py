@@ -1,5 +1,5 @@
 import re
-from typing import Any, Type, Union
+from typing import Any, Mapping, Type, Union
 
 from jsonschema import validate as js_validate
 from requests import Request, Response
@@ -15,7 +15,7 @@ class RequestValidator:
 
 
 class ResponseValidator:
-    def __init__(self, response: Response, extract: dict) -> None:
+    def __init__(self, response: Response, extract: Mapping) -> None:
         self.__response: Response = response
         self.__body = self.__response.text
         self.__extract: dict = extract
@@ -133,7 +133,7 @@ class ResponseValidator:
         return self
 
     # assert format
-    def assert_schema(self, actual: str, schema: dict) -> "ResponseValidator":
+    def assert_schema(self, actual: str, schema: Mapping) -> "ResponseValidator":
         extract_result = extract_json(actual, self.__body)
         try:
             js_validate(instance=extract_result, schema=schema)
@@ -157,7 +157,7 @@ class ResponseValidator:
         return self
 
     # assert type
-    def assert_type(self, actual: str, expect: object) -> "ResponseValidator":
+    def assert_type(self, actual: str, expect: Any) -> "ResponseValidator":
         extract_result = extract_json(actual, self.__body)
         if not isinstance(extract_result, expect):
             raise ValidatorError(f"Actual: {actual} is not {expect}")

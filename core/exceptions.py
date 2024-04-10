@@ -1,5 +1,5 @@
 class MethodError(Exception):
-    def __init__(self, error="Request Method Error"):
+    def __init__(self, error: str = "Request Method Error"):
         self.error = error
 
     def __str__(self):
@@ -7,7 +7,7 @@ class MethodError(Exception):
 
 
 class ValidatorError(Exception):
-    def __init__(self, error="Validator Error"):
+    def __init__(self, error: str = "Validator Error"):
         self.error = error
 
     def __str__(self):
@@ -15,7 +15,7 @@ class ValidatorError(Exception):
 
 
 class ExporterError(Exception):
-    def __init__(self, error="Exporter Error"):
+    def __init__(self, error: str = "Exporter Error"):
         self.error = error
 
     def __str__(self):

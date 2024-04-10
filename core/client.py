@@ -13,6 +13,7 @@ client
 """
 
 import json
+from typing import Mapping
 
 from requests import Request, Session
 
@@ -22,12 +23,12 @@ from .validator import ResponseValidator
 
 
 class Optional:
-    def __init__(self, request: Request, extract: dict) -> None:
+    def __init__(self, request: Request, extract: Mapping) -> None:
         self.__request: Request = request
         self.__session: Session = Session()
         self.__extract: dict = extract
 
-    def headers(self, headers: dict) -> "Optional":
+    def headers(self, headers: Mapping) -> "Optional":
         self.__request.headers = headers
         return self
 
@@ -38,7 +39,7 @@ class Optional:
         )
         return self
 
-    def params(self, params: dict) -> "Optional":
+    def params(self, params: Mapping) -> "Optional":
         return self
 
     def send(self, timeout: int = 8) -> ResponseValidator:
@@ -58,7 +59,7 @@ class Client:
         # self.__response: Response | None = None
         self.__extract: dict = {}
 
-    def _set_extract(self, extract: dict) -> "Client":
+    def _set_extract(self, extract: Mapping) -> "Client":
         self.__extract = extract
         return self
 

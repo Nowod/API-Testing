@@ -1,3 +1,5 @@
+from typing import Mapping
+
 from requests import Response
 
 from .exceptions import ExporterError
@@ -5,7 +7,7 @@ from .utils import extract_json
 
 
 class Exporter:
-    def __init__(self, response: Response, extract: dict) -> None:
+    def __init__(self, response: Response, extract: Mapping) -> None:
         self.__response: Response = response
         self.__extract: dict = extract
 
