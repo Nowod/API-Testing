@@ -1,11 +1,3 @@
-import os
-import sys
-import unittest
-
-root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(root_path)
-
-
 from core.utils import (  # noqa: E402
     deep_traverse_and_format,
     extract_json,
@@ -13,7 +5,7 @@ from core.utils import (  # noqa: E402
 )
 
 
-class TestUtils(unittest.TestCase):
+class TestUtils:
     def test_extract_json(self):
         extract_reuslt = extract_json("$.Hello", {"Hello": "World"})
         assert extract_reuslt == "World"
@@ -46,14 +38,10 @@ class TestUtils(unittest.TestCase):
             "b": "xxxxx",
             "yy": "yyyyy",
         }
-        deep_traverse_and_format(data, variables)
+        data = deep_traverse_and_format(data, variables)
         assert data == {
             "xx": "The Internet has done an incredible job of {'xx': '3424234'} the world together in 23 years. ",
             "{yy}": "post test",
             "zz": ["11", "11"],
             "a": {"c": "xxxxx"},
         }
-
-
-if __name__ == "__main__":
-    unittest.main()

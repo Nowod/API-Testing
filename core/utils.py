@@ -39,15 +39,11 @@ def deep_traverse_and_format(
                 data[key] = format_string_by_variable(value, variables)
             elif isinstance(value, (list, dict)):
                 deep_traverse_and_format(value, variables)
-            else:
-                pass
     elif isinstance(data, list):
         for index in range(len(data)):
             if isinstance(data[index], str):
                 data[index] = format_string_by_variable(data[index], variables)
             elif isinstance(data[index], (list, dict)):
                 deep_traverse_and_format(data[index], variables)
-            else:
-                pass
-    else:
-        pass
+
+    return data

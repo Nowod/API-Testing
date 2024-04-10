@@ -1,18 +1,11 @@
 import json
-import os
-import sys
-import unittest
 
 from requests import Response
 
-root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(root_path)
+from core.exporter import Exporter
 
 
-from core.exporter import Exporter  # noqa: E402
-
-
-class TestExporter(unittest.TestCase):
+class TestExporter:
     response = Response()
     response.status_code = 200
     response.headers = {"Content-Type": "application/json"}
@@ -62,7 +55,3 @@ class TestExporter(unittest.TestCase):
     def test_export_body(self):
         self.exporter.export("$.product.name", "product_name")
         assert self.extract["product_name"] == "智能手环"
-
-
-if __name__ == "__main__":
-    unittest.main()

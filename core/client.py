@@ -12,6 +12,8 @@ client
 .export
 """
 
+import json
+
 from requests import Request, Session
 
 from .exceptions import MethodError
@@ -29,8 +31,11 @@ class Optional:
         self.__request.headers = headers
         return self
 
-    def body(self, payload: dict) -> "Optional":
-        self.__request.data = deep_traverse_and_format(payload, self.__extract)
+    def body(self, payload: str) -> "Optional":
+        # TODO add error handling
+        self.__request.json = json.dumps(
+            deep_traverse_and_format(json.loads(payload), self.__extract)
+        )
         return self
 
     def params(self, params: dict) -> "Optional":
@@ -53,9 +58,9 @@ class Client:
         # self.__response: Response | None = None
         self.__extract: dict = {}
 
-    # TODO import params
-    # def imports(self, extract_list: dict) -> "Client":
-    #     return self
+    def _set_extract(self, extract: dict) -> "Client":
+        self.__extract = extract
+        return self
 
     def get(self, url: str) -> "Optional":
         self.__request.url = url

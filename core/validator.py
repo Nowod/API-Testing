@@ -181,5 +181,5 @@ class ResponseValidator:
     def assert_null(self, actual: str) -> "ResponseValidator":
         return self.assert_type(actual, type(None))
 
-    def export(self, source: str, target: str, alias: str) -> "Exporter":
-        return Exporter(self.__response, self.__extract).export(source, target, alias)
+    def export(self, *args) -> "Exporter":
+        return Exporter(self.__response, self.__extract).export(*args)

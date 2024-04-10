@@ -1,18 +1,11 @@
 import json
-import os
-import sys
-import unittest
 
 from requests import Response
 
-root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(root_path)
+from core.validator import ResponseValidator
 
 
-from core.validator import ResponseValidator  # noqa: E402
-
-
-class TestResponseValidator(unittest.TestCase):
+class TestResponseValidator:
     response = Response()
     response.status_code = 200
     response.headers = {"Content-Type": "application/json"}
@@ -52,7 +45,7 @@ class TestResponseValidator(unittest.TestCase):
             }
         }
     ).encode("utf-8")
-    validator = ResponseValidator(response)
+    validator = ResponseValidator(response, extract={})
 
     def test_assert_status_code(self):
         self.validator.assert_status_code(200)
@@ -169,11 +162,3 @@ class TestResponseValidator(unittest.TestCase):
 
     def test_assert_null(self):
         self.validator.assert_null("$.product.reviews[0].is_null")
-
-
-class TestRequestValidator(unittest.TestCase):
-    pass
-
-
-if __name__ == "__main__":
-    unittest.main()

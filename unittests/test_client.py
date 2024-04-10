@@ -1,17 +1,13 @@
 import json
-import os
-import sys
-import unittest
 
+import pytest
 import responses
+from responses import matchers
 
-root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(root_path)
-
-from core.client import Client  # noqa: E402
+from core.client import Client
 
 
-class TestClient(unittest.TestCase):
+class TestClient:
     base_url = "http://example.com"
 
     @responses.activate
@@ -31,6 +27,7 @@ class TestClient(unittest.TestCase):
             .headers({"Content-Type": "application/json"})
             .send(timeout=8)
             .assert_equal("$.Hello", "World")
+            .export("$.Hello", "Hello")
         )
 
     @responses.activate
@@ -41,14 +38,16 @@ class TestClient(unittest.TestCase):
                 url="http://example.com",
                 headers={"Content-Type": "application/json"},
                 json={"Hello": "World"},
+                match=[matchers.json_params_matcher(json.dumps({"xx": "World"}))],
             ),
         )
 
         (
             Client()
+            ._set_extract({"Hello": "World"})  # test extract
             .post(self.base_url)
             .headers({"Content-Type": "application/json"})
-            .body(json.dumps({"xx": "post"}))
+            .body(json.dumps({"xx": "{Hello}"}))
             .send(timeout=8)
             .assert_equal("$.Hello", "World")
         )
@@ -113,4 +112,4 @@ class TestClient(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    pytest.main(["-s", "test_client.py"])
