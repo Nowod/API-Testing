@@ -7,6 +7,9 @@
     "editor.tabSize": 2,
     // 字体大小
     "editor.fontSize": 18,
+    "workbench.editorAssociations": {
+        "*.md": "default"
+    },
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
     },
@@ -21,5 +24,5 @@
             "source.organizeImports": "always"
         },
         "editor.defaultFormatter": "charliermarsh.ruff",
-    }
+    },
 }

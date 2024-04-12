@@ -33,7 +33,9 @@ class Optional:
         return self
 
     def body(self, payload: str) -> "Optional":
-        # TODO add error handling
+        # TODO x-www-form-urlencode
+        # TODO multipart/form-data --- use requests-toolbelt lib
+        # TODO application/json
         self.__request.json = json.dumps(
             deep_traverse_and_format(json.loads(payload), self.__extract)
         )
