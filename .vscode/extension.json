@@ -1,16 +1,17 @@
 {
-    "recommendations": [
-      "MS-CEINTL.vscode-language-pack-zh-hans",
-      "charliermarsh.ruff",
-      "ms-python.python",
-      "ms-python.vscode-pylance",
-      "ms-python.debugpy",
-      "usernamehw.errorlens",
-      "Codeium.codeium",
-      "tamasfe.even-better-toml",
-      "eamodio.gitlens",
-      "zhuangtongfa.material-theme",
-      "Gruntfuggly.todo-tree",
-      "ms-vscode.live-server"
-    ]
-  }
+  "recommendations": [
+    "MS-CEINTL.vscode-language-pack-zh-hans",
+    "charliermarsh.ruff",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-python.debugpy",
+    "usernamehw.errorlens",
+    "Codeium.codeium",
+    "tamasfe.even-better-toml",
+    "eamodio.gitlens",
+    "zhuangtongfa.material-theme",
+    "Gruntfuggly.todo-tree",
+    "ms-vscode.live-server",
+    "bierner.github-markdown-preview"
+  ]
+}
