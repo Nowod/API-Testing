@@ -1,6 +1,6 @@
 import responses
 
-from core import ClientType, TestCase
+from rdm import ClientType, TestCase
 
 
 class TestBase(TestCase):

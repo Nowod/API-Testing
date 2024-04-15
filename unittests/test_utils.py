@@ -1,4 +1,4 @@
-from core.utils import (  # noqa: E402
+from rdm.utils import (  # noqa: E402
     deep_traverse_and_format,
     extract_json,
     format_string_by_variable,

@@ -2,7 +2,7 @@ import json
 
 from requests import Response
 
-from core.exporter import Exporter
+from rdm.exporter import Exporter
 
 
 class TestExporter:

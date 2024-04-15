@@ -4,7 +4,7 @@ import pytest
 import responses
 from responses import matchers
 
-from core.client import Client
+from rdm.client import Client
 
 
 class TestClient:

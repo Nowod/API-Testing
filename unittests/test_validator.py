@@ -2,7 +2,7 @@ import json
 
 from requests import Response
 
-from core.validator import ResponseValidator
+from rdm.validator import ResponseValidator
 
 
 class TestResponseValidator:

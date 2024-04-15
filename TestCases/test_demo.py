@@ -7,7 +7,7 @@ import json
 import pytest
 import responses
 
-from core import ClientType, TestCase
+from rdm import ClientType, TestCase
 
 
 class TestDemo(TestCase):

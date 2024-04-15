@@ -1,6 +1,6 @@
 import pytest
 
-from core.exceptions import ExporterError, MethodError, ValidatorError
+from rdm.exceptions import ExporterError, MethodError, ValidatorError
 
 
 class TestException:
