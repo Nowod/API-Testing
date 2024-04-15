@@ -13,8 +13,8 @@
 ## Installation
 ```shell
 export PYTHONPATH=$PYTHONPATH:/workspaces/Redemption
-
-pip install -r requirements.txt # Python >= 3.10
+pip install poetry # Python >= 3.10
+poetry install
 ```
 
 ## Demo
