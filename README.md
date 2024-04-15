@@ -15,6 +15,7 @@
 export PYTHONPATH=$PYTHONPATH:/workspaces/Redemption
 pip install poetry # Python >= 3.10
 poetry install
+poetry run pytest
 ```
 
 ## Demo
